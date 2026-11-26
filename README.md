@@ -49,3 +49,23 @@ if moved:
 open("report.md", "w").write("\n".join(lines))
 print("\n".join(lines))
 sys.exit(1 if bad or moved else 0)
+https://github.com/Davidgaribayf-crypto/trade-finder/new/main
+name: Weekly link check
+on:
+  schedule:
+    - cron: "0 15 * * 1"
+  workflow_dispatch: {}
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python check_links.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: link-report
+          path: report.md
